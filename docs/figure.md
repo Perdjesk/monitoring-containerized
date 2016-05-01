@@ -4,7 +4,7 @@ graph LR
  node-container(node-exporter-container)
  grafana(Grafana)
  cadvisor(cAdvisor)
- promserver-.-|scrape|node-host
- promserver-.-|scrape|node-container
- promserver-.-|scrape|cadvisor
+ promserver-.-|pull metrics|node-host
+ promserver-.-|pull metrics|node-container
+ promserver-.-|pull metrics|cadvisor
  grafana-.-|datasource|promserver
