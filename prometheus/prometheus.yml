@@ -34,11 +34,6 @@ scrape_configs:
       - targets:
         - localhost:9090
 
-  # - job_name: 'cadvisor'
-  #   target_groups:
-  #     - targets:
-  #       - cadvisor:8080
-
   - job_name: 'node'
     target_groups:
       - targets:
