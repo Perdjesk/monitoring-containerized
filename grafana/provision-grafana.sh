@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "Provisioning Grafana with datasource and dashboards"
 grafana_url=http://localhost:3000
@@ -18,7 +19,9 @@ dashboards=$(dirname $0)/dashboards/*
 for dashboard in $dashboards
 do
   echo "Adding dashboard $dashboard"
+  head $dashboard
   export bodyjson=$(< $dashboard)
+  echo $bodyjson | head
   echo '{ "dashboard": '"$bodyjson"' , "overwrite": false }' | head
   curl --fail -u admin:admin -X POST -H "Content-Type: application/json" -d '{ "dashboard": '"$bodyjson"' , "overwrite": false }' $grafana_url/api/dashboards/db
   echo
