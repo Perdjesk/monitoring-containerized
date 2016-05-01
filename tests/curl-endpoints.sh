@@ -1,9 +1,10 @@
 #!/bin/bash
 set -ev
 
-curl --fail localhost:3000
-curl --fail localhost:8080
-curl --fail localhost:9100
-curl --fail localhost:9090
+curl --fail http://localhost:3000
+curl --fail http://localhost:8080
+curl --fail http://localhost:9100
+curl --fail http://localhost:9090
+curl --fail http://localhost:8500
 
 echo "SUCCESS $0"
