@@ -3,7 +3,7 @@
 echo "Provisioning Grafana with datasource and dashboards"
 grafana_url=http://localhost:3000
 
-curl -u admin:admin -X POST -H "Content-Type: application/json"  -d @- $grafana_url/api/datasources <<EOF
+curl --fail -u admin:admin -X POST -H "Content-Type: application/json"  -d @- $grafana_url/api/datasources <<EOF
 {
   "name":"Prometheus",
   "type":"prometheus",
@@ -19,6 +19,7 @@ for dashboard in $dashboards
 do
   echo "Adding dashboard $dashboard"
   export bodyjson=$(< $dashboard)
-  curl -u admin:admin -X POST -H "Content-Type: application/json" -d '{ "dashboard": '"$bodyjson"' , "overwrite": false }' $grafana_url/api/dashboards/db
+  echo '{ "dashboard": '"$bodyjson"' , "overwrite": false }' | head
+  curl --fail -u admin:admin -X POST -H "Content-Type: application/json" -d '{ "dashboard": '"$bodyjson"' , "overwrite": false }' $grafana_url/api/dashboards/db
   echo
 done
