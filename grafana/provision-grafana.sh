@@ -19,10 +19,7 @@ dashboards=$(dirname $0)/dashboards/*
 for dashboard in $dashboards
 do
   echo "Adding dashboard $dashboard"
-  head $dashboard
-  export bodyjson=$(< $dashboard)
-  echo $bodyjson | head
-  echo '{ "dashboard": '"$bodyjson"' , "overwrite": false }' | head
+  bodyjson=`cat $dashboard`
   curl --fail -u admin:admin -X POST -H "Content-Type: application/json" -d '{ "dashboard": '"$bodyjson"' , "overwrite": false }' $grafana_url/api/dashboards/db
   echo
 done
