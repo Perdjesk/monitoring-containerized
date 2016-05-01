@@ -1,7 +1,13 @@
 sudo: required
 
-services:
-  - docker
+env:
+  global:
+    - DOCKER_VERSION=1.10.0
+    - UML_FIG=0
+    - UML_DOCKERCOMPOSE=1
+
+install:
+  - curl -sLo - http://j.mp/install-travis-docker | sh -xe
 
 script:
   - docker --version
