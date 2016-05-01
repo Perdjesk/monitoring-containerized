@@ -1,0 +1,46 @@
+version: '2'
+
+services:
+  promserver:
+    image: prom/prometheus
+    volumes:
+      - $PWD/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - $PWD/prometheus/console/consoles:/etc/prometheus/consoles:ro
+      - $PWD/prometheus/console/console_libraries:/etc/prometheus/console_libraries:ro
+  #    - $PWD/alert.rules:/etc/prometheus/alert.rules
+    ports:
+      - "9090:9090"
+    extra_hosts:
+      - node-exporter-host:$DOCKER_HOST_IP
+    links:
+      - node-exporter-container
+      - cadvisor
+
+  grafana:
+    image: grafana/grafana:3.0.0-beta5
+    ports:
+      - 3000:3000
+
+  cadvisor:
+    image: "google/cadvisor"
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:rw"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+    ports:
+      - "8080:8080"
+
+  node-exporter-container:
+    image: prom/node-exporter
+
+  node-exporter-host:
+    image: prom/node-exporter
+    volumes:
+      - /proc:/host/proc
+      - /sys:/host/sys
+      - /:/rootfs
+    ports:
+      - "9100:9100"
+    network_mode: host
+    command: "-collector.procfs /host/proc -collector.sysfs /host/proc -collector.filesystem.ignored-mount-points '^/(sys|proc|dev|host|etc)($$|/)'"

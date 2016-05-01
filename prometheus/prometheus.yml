@@ -1,0 +1,20 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 2s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    target_groups:
+      - targets:
+        - localhost:9090
+
+  - job_name: 'cadvisor'
+    target_groups:
+      - targets:
+        - cadvisor:8080
+
+  - job_name: 'node'
+    target_groups:
+      - targets:
+        - node-exporter-host:9100
+        - node-exporter-container:9100
