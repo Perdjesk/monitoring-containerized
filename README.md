@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Perdjesk/monitoring-containerized.svg?branch=master)](https://travis-ci.org/Perdjesk/monitoring-containerized)
+
 # Overview
 
 ![Overview](/docs/figure.md.png)
