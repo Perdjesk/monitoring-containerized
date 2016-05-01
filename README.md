@@ -6,7 +6,7 @@ Requirements
 
 # Overview
 
-![Overview](/docs/figure.md.png)
+<img src="/docs/figure.md.png" width="80%">
 
 # Usage
 
@@ -16,7 +16,8 @@ Requirements
 
 | Component           | URL                     |
 | ---                 | ---                     |
-| Grafana             | http://localhost:3000  |
+| Grafana             | http://localhost:3000   |
 | Prometheus server   | http://localhost:9090   |
 | Host node-exporter  | http://localhost:9100   |
 | cAdvisor            | http://localhost:8080   |
+| consul              | http://localhost:8500   |

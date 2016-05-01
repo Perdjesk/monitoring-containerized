@@ -15,6 +15,23 @@ services:
     links:
       - node-exporter-container
       - cadvisor
+      - consul-server
+
+  registrator:
+    image: gliderlabs/registrator
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    command: "consul://localhost:8500"
+    network_mode: host
+    depends_on:
+      - consul-server
+      - cadvisor
+
+  consul-server:
+    image: gliderlabs/consul-server
+    ports:
+      - 8500:8500
+    command: "-bootstrap"
 
   grafana:
     image: grafana/grafana:3.0.0-beta5
