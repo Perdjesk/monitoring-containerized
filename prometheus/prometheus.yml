@@ -9,7 +9,7 @@ scrape_configs:
 
     consul_sd_configs:
     - server: 'consul-server:8500'
-      services: ['cadvisor']
+      services: ['cadvisor', 'node-exporter']
 
     relabel_configs:
         - source_labels: ['__meta_consul_service']
@@ -38,4 +38,3 @@ scrape_configs:
     target_groups:
       - targets:
         - node-exporter-host:9100
-        - node-exporter-container:9100

@@ -2,7 +2,7 @@ version: '2'
 
 services:
   promserver:
-    image: prom/prometheus
+    image: prom/prometheus:0.18.0
     volumes:
       - $PWD/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - $PWD/prometheus/console/consoles:/etc/prometheus/consoles:ro
@@ -13,33 +13,35 @@ services:
     extra_hosts:
       - node-exporter-host:$DOCKER_HOST_IP
     links:
-      - node-exporter-container
+      - node-exporter-container1
+      - node-exporter-container2
       - cadvisor
       - consul-server
 
   registrator:
-    image: gliderlabs/registrator
+    image: gliderlabs/registrator:v7
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock
-    command: "consul://localhost:8500"
-    network_mode: host
+    command: "-internal consul://consul-server:8500"
     depends_on:
       - consul-server
       - cadvisor
+    links:
+      - consul-server
 
   consul-server:
-    image: gliderlabs/consul-server
+    image: gliderlabs/consul-server:0.6
     ports:
       - 8500:8500
     command: "-bootstrap"
 
   grafana:
-    image: grafana/grafana:3.0.0-beta5
+    image: grafana/grafana:3.0.1
     ports:
       - 3000:3000
 
   cadvisor:
-    image: "google/cadvisor"
+    image: google/cadvisor:v0.23.0
     volumes:
       - "/:/rootfs:ro"
       - "/var/run:/var/run:rw"
@@ -48,16 +50,18 @@ services:
     ports:
       - "8080:8080"
 
-  node-exporter-container:
-    image: prom/node-exporter
+  node-exporter-container1:
+    image: prom/node-exporter:0.12.0
+  node-exporter-container2:
+    image: prom/node-exporter:0.12.0
 
   node-exporter-host:
-    image: prom/node-exporter
+    image: prom/node-exporter:0.12.0
     volumes:
       - /proc:/host/proc
       - /sys:/host/sys
       - /:/rootfs
     ports:
-      - "9100:9100"
+      - "9100"
     network_mode: host
     command: "-collector.procfs /host/proc -collector.sysfs /host/proc -collector.filesystem.ignored-mount-points '^/(sys|proc|dev|host|etc)($$|/)'"
