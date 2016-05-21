@@ -1,8 +1,18 @@
 [![Build Status](https://travis-ci.org/Perdjesk/monitoring-containerized.svg?branch=master)](https://travis-ci.org/Perdjesk/monitoring-containerized)
 
+The goal is to provide a simple way to create a 'working out of the box' playground around monitoring tools:
+- Grafana, for metrics visualization with provided dashboards.
+- Prometheus, to collect metrics from various exporter (node, cadvisor).
+- cAdvisor, to expose container metrics.
+- consul, to feed Prometheus with new targets to scrape.
+- Registrator, for announcing all host's containers to consul.
+
+
 Requirements
 - docker-engine  >= 1.10.0
 - docker-compose >= 1.6.0
+
+
 
 # Overview
 
