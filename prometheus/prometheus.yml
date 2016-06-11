@@ -9,7 +9,7 @@ scrape_configs:
 
     consul_sd_configs:
     - server: 'consul-server:8500'
-      services: ['cadvisor', 'node-exporter']
+      services: ['cadvisor', 'node-exporter', 'maven']
 
     relabel_configs:
         - source_labels: ['__meta_consul_service']

@@ -1,8 +1,16 @@
 version: '2'
 
 services:
+  java-restapp:
+    image: maven:3-jdk-8
+    volumes:
+      - $PWD/java-restapp:/usr/src/java-restapp:ro
+    ports:
+      - "8081:8080"
+    command: "bash -c 'cp -r /usr/src/java-restapp /tmp/java-restapp; cd /tmp/java-restapp; mvn clean package exec:java'"
+
   promserver:
-    image: prom/prometheus:0.18.0
+    image: prom/prometheus:0.19.2
     volumes:
       - $PWD/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - $PWD/prometheus/console/consoles:/etc/prometheus/consoles:ro
@@ -36,12 +44,12 @@ services:
     command: "-bootstrap"
 
   grafana:
-    image: grafana/grafana:3.0.1
+    image: grafana/grafana:3.0.4
     ports:
       - 3000:3000
 
   cadvisor:
-    image: google/cadvisor:v0.23.0
+    image: google/cadvisor:v0.23.2
     volumes:
       - "/:/rootfs:ro"
       - "/var/run:/var/run:rw"
